@@ -45,6 +45,24 @@
   --color-accent-text: var(--accent-text);
 }
 
+/* --- Default theme fallback (Solarized Dark) — applies until JS sets data-theme.
+   Placed before all [data-theme=...] blocks so any explicit theme wins by cascade order. --- */
+:root {
+  --bg: #002b36;
+  --bg-elev: #073642;
+  --bg-elev-2: #0a4b5a;
+  --ink: #eee8d5;
+  --ink-soft: #93a1a1;
+  --ink-dim: #657b83;
+  --line: #0f4a59;
+  --accent: #2aa198;
+  --accent-text: #268bd2;
+  --danger: #dc322f;
+  --warn: #b58900;
+  --blue: #268bd2;
+  color-scheme: dark;
+}
+
 /* --- Theme: GitHub Dark --- */
 [data-theme="github-dark"] {
   --bg: #0d1117;
@@ -130,8 +148,7 @@
   color-scheme: light;
 }
 
-/* --- Theme: Solarized Dark (default) --- */
-:root,
+/* --- Theme: Solarized Dark --- */
 [data-theme="solarized-dark"] {
   --bg: #002b36;
   --bg-elev: #073642;
@@ -782,25 +799,39 @@ section { padding: 96px 0; }
 .theme-dd-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 6px 10px 6px 8px;
   border-radius: 7px;
   border: 1px solid var(--line);
   background: transparent;
-  color: var(--ink-dim);
+  color: var(--ink);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 12.5px;
   transition: all 0.15s;
 }
-.theme-dd-trigger:hover { color: var(--ink); border-color: var(--ink-dim); background: var(--bg-elev); }
+.theme-dd-trigger:hover { border-color: var(--ink-dim); background: var(--bg-elev); }
 .theme-dd-trigger .swatch {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
   border: 1px solid var(--line);
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
 }
-.theme-dd-trigger svg { color: var(--ink-dim); }
+.theme-dd-trigger .swatch::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--swatch-accent, transparent);
+}
+.theme-dd-trigger .theme-dd-variant { margin-left: 2px; }
+.theme-dd-chevron { color: var(--ink-dim); flex-shrink: 0; }
 
 .theme-dd-menu {
   position: absolute;

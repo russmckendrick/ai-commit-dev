@@ -5,7 +5,13 @@ const defaultTheme = themes.find(t => t.id === defaultThemeId) ?? themes[0];
 
 const triggerData: Record<string, string> = {};
 for (const t of themes) {
-  triggerData[`data-${t.id}`] = JSON.stringify({ bg: t.background, border: t.border, name: t.name });
+  triggerData[`data-${t.id}`] = JSON.stringify({
+    bg: t.background,
+    border: t.border,
+    accent: t.accent,
+    name: t.name,
+    variant: t.variant,
+  });
 }
 ---
 
@@ -16,11 +22,13 @@ for (const t of themes) {
     aria-label="Change theme"
     aria-haspopup="menu"
     aria-expanded="false"
+    style={`--swatch-accent: ${defaultTheme.accent};`}
     {...triggerData}
   >
     <span class="swatch" style={`background: ${defaultTheme.background}; border-color: ${defaultTheme.border};`}></span>
     <span class="theme-dd-current">{defaultTheme.name}</span>
-    <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <span class="variant-badge theme-dd-variant">{defaultTheme.variant}</span>
+    <svg class="theme-dd-chevron" width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 6l4 4 4-4" />
     </svg>
   </button>

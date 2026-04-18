@@ -78,12 +78,17 @@ const {
           if (trigger) {
             var swatch = trigger.querySelector('.swatch');
             var name = trigger.querySelector('.theme-dd-current');
+            var variant = trigger.querySelector('.theme-dd-variant');
             var data = trigger.dataset;
-            if (data && data[themeId]) {
+            var key = themeId.replace(/-([a-z])/g, function(_, c) { return c.toUpperCase(); });
+            var raw = data && (data[key] || data[themeId]);
+            if (raw) {
               try {
-                var meta = JSON.parse(data[themeId]);
+                var meta = JSON.parse(raw);
                 if (swatch) { swatch.style.background = meta.bg; swatch.style.borderColor = meta.border; }
                 if (name) name.textContent = meta.name;
+                if (variant) variant.textContent = meta.variant;
+                trigger.style.setProperty('--swatch-accent', meta.accent);
               } catch(e) {}
             }
           }
