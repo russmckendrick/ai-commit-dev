@@ -8,8 +8,12 @@ export interface Theme {
   tertiaryText: string;
   border: string;
   surface: string;
+  surfaceRaised: string;
   accent: string;
   accentText: string;
+  danger: string;
+  warn: string;
+  info: string;
   heatStops: [string, string, string, string];
   activityStops: [string, string, string, string, string];
   directoryPalette: string[];
@@ -26,8 +30,12 @@ export const themes: Theme[] = [
     tertiaryText: '#6e7681',
     border: '#30363d',
     surface: '#161b22',
+    surfaceRaised: '#21262d',
     accent: '#58a6ff',
     accentText: '#79c0ff',
+    danger: '#f85149',
+    warn: '#d29922',
+    info: '#79c0ff',
     heatStops: ['#161b22', '#388bfd', '#d47616', '#f85149'],
     activityStops: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
     directoryPalette: [
@@ -46,8 +54,12 @@ export const themes: Theme[] = [
     tertiaryText: '#8b949e',
     border: '#d1d9e0',
     surface: '#f6f8fa',
+    surfaceRaised: '#eaeef2',
     accent: '#0969da',
     accentText: '#0550ae',
+    danger: '#cf222e',
+    warn: '#bf8700',
+    info: '#218bff',
     heatStops: ['#edf2f7', '#54aeff', '#e16f24', '#cf222e'],
     activityStops: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
     directoryPalette: [
@@ -62,12 +74,16 @@ export const themes: Theme[] = [
     variant: 'light',
     background: '#fafafa',
     primaryText: '#1a1a1a',
-    secondaryText: '#666666',
-    tertiaryText: '#999999',
-    border: '#e0e0e0',
+    secondaryText: '#555555',
+    tertiaryText: '#888888',
+    border: '#d0d0d0',
     surface: '#ffffff',
-    accent: '#90a4ae',
-    accentText: '#546e7a',
+    surfaceRaised: '#f0f0f0',
+    accent: '#546e7a',
+    accentText: '#37474f',
+    danger: '#c62828',
+    warn: '#ef6c00',
+    info: '#1565c0',
     heatStops: ['#e8eaf6', '#42a5f5', '#ffb74d', '#ef5350'],
     activityStops: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
     directoryPalette: [
@@ -80,14 +96,18 @@ export const themes: Theme[] = [
     id: 'classic-dark',
     name: 'Classic Dark',
     variant: 'dark',
-    background: '#1e1e1e',
-    primaryText: '#e0e0e0',
-    secondaryText: '#b0b0b0',
-    tertiaryText: '#808080',
+    background: '#1a1a1a',
+    primaryText: '#e8e8e8',
+    secondaryText: '#aaaaaa',
+    tertiaryText: '#777777',
     border: '#3a3a3a',
-    surface: '#2a2a2a',
-    accent: '#78909c',
-    accentText: '#90a4ae',
+    surface: '#222222',
+    surfaceRaised: '#2c2c2c',
+    accent: '#90a4ae',
+    accentText: '#b0bec5',
+    danger: '#ef5350',
+    warn: '#ffa726',
+    info: '#29b6f6',
     heatStops: ['#263238', '#1565c0', '#ef6c00', '#c62828'],
     activityStops: ['#2a2a2a', '#0e4429', '#006d32', '#26a641', '#39d353'],
     directoryPalette: [
@@ -102,12 +122,16 @@ export const themes: Theme[] = [
     variant: 'light',
     background: '#fdf6e3',
     primaryText: '#073642',
-    secondaryText: '#657b83',
+    secondaryText: '#586e75',
     tertiaryText: '#93a1a1',
-    border: '#eee8d5',
-    surface: '#fdf6e3',
+    border: '#d5c9a0',
+    surface: '#eee8d5',
+    surfaceRaised: '#e4debb',
     accent: '#268bd2',
     accentText: '#2aa198',
+    danger: '#dc322f',
+    warn: '#cb4b16',
+    info: '#268bd2',
     heatStops: ['#eee8d5', '#268bd2', '#cb4b16', '#dc322f'],
     activityStops: ['#eee8d5', '#859900', '#6c8f00', '#4a7800', '#2a6100'],
     directoryPalette: [
@@ -122,12 +146,16 @@ export const themes: Theme[] = [
     variant: 'dark',
     background: '#002b36',
     primaryText: '#eee8d5',
-    secondaryText: '#839496',
-    tertiaryText: '#586e75',
-    border: '#073642',
+    secondaryText: '#93a1a1',
+    tertiaryText: '#657b83',
+    border: '#0f4a59',
     surface: '#073642',
-    accent: '#268bd2',
-    accentText: '#2aa198',
+    surfaceRaised: '#0a4b5a',
+    accent: '#2aa198',
+    accentText: '#268bd2',
+    danger: '#dc322f',
+    warn: '#b58900',
+    info: '#268bd2',
     heatStops: ['#073642', '#268bd2', '#cb4b16', '#dc322f'],
     activityStops: ['#073642', '#1a4a1a', '#2d6a2d', '#859900', '#a6c400'],
     directoryPalette: [
@@ -142,12 +170,16 @@ export const themes: Theme[] = [
     variant: 'dark',
     background: '#272822',
     primaryText: '#f8f8f2',
-    secondaryText: '#a6a69c',
-    tertiaryText: '#75715e',
-    border: '#3e3d32',
+    secondaryText: '#cfcfc2',
+    tertiaryText: '#a6a69c',
+    border: '#49483e',
     surface: '#3e3d32',
-    accent: '#66d9ef',
-    accentText: '#a6e22e',
+    surfaceRaised: '#49483e',
+    accent: '#a6e22e',
+    accentText: '#66d9ef',
+    danger: '#f92672',
+    warn: '#fd971f',
+    info: '#66d9ef',
     heatStops: ['#3e3d32', '#66d9ef', '#fd971f', '#f92672'],
     activityStops: ['#3e3d32', '#4a5e2b', '#6a8f2b', '#a6e22e', '#c8f560'],
     directoryPalette: [
@@ -162,12 +194,16 @@ export const themes: Theme[] = [
     variant: 'dark',
     background: '#282a36',
     primaryText: '#f8f8f2',
-    secondaryText: '#bfbfbf',
-    tertiaryText: '#6272a4',
+    secondaryText: '#c7c7c0',
+    tertiaryText: '#8b8ba0',
     border: '#44475a',
-    surface: '#44475a',
+    surface: '#343746',
+    surfaceRaised: '#44475a',
     accent: '#bd93f9',
     accentText: '#8be9fd',
+    danger: '#ff5555',
+    warn: '#ffb86c',
+    info: '#8be9fd',
     heatStops: ['#44475a', '#8be9fd', '#ffb86c', '#ff5555'],
     activityStops: ['#44475a', '#2d5a2d', '#3d8a3d', '#50fa7b', '#7dffaa'],
     directoryPalette: [
@@ -178,7 +214,7 @@ export const themes: Theme[] = [
   },
 ];
 
-export const defaultThemeId = 'github-dark';
+export const defaultThemeId = 'solarized-dark';
 
 export function getTheme(id: string): Theme | undefined {
   return themes.find(t => t.id === id);

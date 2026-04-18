@@ -1,0 +1,42 @@
+---
+import { themes, defaultThemeId } from '../data/themes';
+
+const cards = [
+  { slug: 'treemap',  name: 'aic map tree',     sub: 'squarified treemap' },
+  { slug: 'timeline', name: 'aic map history',  sub: 'zigzag timeline' },
+  { slug: 'heatmap',  name: 'aic map heat',     sub: 'modification heatmap' },
+  { slug: 'activity', name: 'aic map activity', sub: 'contribution grid' },
+];
+---
+
+<section id="visualizations" class="section-elev">
+  <div class="shell">
+    <div class="section-kicker">Visualizations</div>
+    <h2 class="section-title">Your repo, rendered.</h2>
+    <p class="section-sub">
+      <span class="mono" style="color: var(--ink);">aic map</span> produces standalone SVGs — treemaps, timelines, heatmaps, activity grids — in eight themes. No server, no dashboard, just files you can commit.
+    </p>
+    <div class="map-gallery">
+      {cards.map((card) => (
+        <div class="map-card">
+          <div class="map-card-vis">
+            {themes.map((theme) => (
+              <img
+                src={`/maps/${card.slug}-${theme.id}.svg`}
+                alt={`${card.name} — ${theme.name}`}
+                loading="lazy"
+                decoding="async"
+                data-viz-theme={theme.id}
+                style={theme.id === defaultThemeId ? '' : 'display: none;'}
+              />
+            ))}
+          </div>
+          <div class="map-card-meta">
+            <span class="map-card-name">{card.name}</span>
+            <span class="map-card-sub">{card.sub}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

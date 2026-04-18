@@ -1,0 +1,38 @@
+---
+import ProviderIcon from './ProviderIcon';
+
+const items = [
+  { name: 'openai' },
+  { name: 'anthropic' },
+  { name: 'azure-openai' },
+  { name: 'groq' },
+  { name: 'ollama' },
+  { name: 'claude-code' },
+  { name: 'codex' },
+];
+---
+
+<section id="providers">
+  <div class="shell">
+    <div class="section-kicker">Providers</div>
+    <h2 class="section-title">Bring your own model.</h2>
+    <p class="section-sub">
+      Hosted APIs, local Ollama, or the <span class="mono" style="color: var(--ink);">claude</span> / <span class="mono" style="color: var(--ink);">codex</span> CLIs you already have signed in. Swap per-run with <span class="mono" style="color: var(--ink);">--provider</span>.
+    </p>
+    <div class="providers">
+      {items.map(({ name }) => (
+        <div class="prov" title={name}>
+          <div class="prov-logo">
+            <ProviderIcon name={name} size={28} />
+          </div>
+          <div class="prov-name">{name}</div>
+        </div>
+      ))}
+    </div>
+    <div style="margin-top: 24px; font-family: var(--mono); font-size: 12px; color: var(--ink-dim); display: flex; gap: 12px; flex-wrap: wrap;">
+      <span>AIC_AI_PROVIDER=anthropic</span><span>·</span>
+      <span>--provider groq</span><span>·</span>
+      <span>aic models --refresh</span>
+    </div>
+  </div>
+</section>

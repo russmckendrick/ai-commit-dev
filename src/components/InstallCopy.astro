@@ -1,0 +1,32 @@
+---
+interface Props {
+  command: string;
+  id?: string;
+}
+const { command, id = 'install-copy' } = Astro.props;
+---
+
+<div class="install-box" data-install-copy={id}>
+  <span class="prompt">$</span>
+  <span class="install-cmd">{command}</span>
+  <button type="button" data-copy-btn aria-label="Copy install command">copy</button>
+</div>
+
+<script is:inline define:vars={{ id, command }}>
+  (function() {
+    var box = document.querySelector('[data-install-copy="' + id + '"]');
+    if (!box) return;
+    var btn = box.querySelector('[data-copy-btn]');
+    if (!btn) return;
+    btn.addEventListener('click', async function() {
+      try {
+        await navigator.clipboard.writeText(command);
+        btn.textContent = 'copied';
+        setTimeout(function() { btn.textContent = 'copy'; }, 1400);
+      } catch (e) {
+        btn.textContent = 'error';
+        setTimeout(function() { btn.textContent = 'copy'; }, 1400);
+      }
+    });
+  })();
+</script>

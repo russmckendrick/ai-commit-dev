@@ -1,0 +1,61 @@
+---
+import { installMacOS } from '../data/terminals/install-macos';
+import { installLinux } from '../data/terminals/install-linux';
+import { installWindows } from '../data/terminals/install-windows';
+import { installSource } from '../data/terminals/install-source';
+
+const tabs = [
+  { id: 'macos',   title: installMacOS.title!,   content: installMacOS.content },
+  { id: 'linux',   title: installLinux.title!,   content: installLinux.content },
+  { id: 'windows', title: installWindows.title!, content: installWindows.content },
+  { id: 'source',  title: installSource.title!,  content: installSource.content },
+];
+---
+
+<section id="install">
+  <div class="shell">
+    <div class="section-kicker">Install</div>
+    <h2 class="section-title">Three commands, any platform.</h2>
+    <p class="section-sub">Single static binary. No runtime, no daemon, no background process.</p>
+    <div class="tabs" role="tablist">
+      {tabs.map((tab, i) => (
+        <button
+          class:list={['tab', { active: i === 0 }]}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-install-tab={tab.id}
+          type="button"
+        >
+          {tab.title}
+        </button>
+      ))}
+    </div>
+    {tabs.map((tab, i) => (
+      <pre
+        class="code-block"
+        data-install-panel={tab.id}
+        style={i === 0 ? '' : 'display: none;'}
+      >{tab.content}</pre>
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+  (function() {
+    var tabs = document.querySelectorAll('[data-install-tab]');
+    var panels = document.querySelectorAll('[data-install-panel]');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var id = tab.getAttribute('data-install-tab');
+        tabs.forEach(function(t) {
+          var isActive = t === tab;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        panels.forEach(function(p) {
+          p.style.display = p.getAttribute('data-install-panel') === id ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>

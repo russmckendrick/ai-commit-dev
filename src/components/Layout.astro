@@ -9,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = 'aic — AI-powered Git commits',
-  description = 'A fast, opinionated CLI that generates Git commit messages, reviews diffs, drafts PRs, and visualizes your codebase — all from the terminal.',
+  title = 'aic — AI-generated commits, reviews & PRs',
+  description = 'aic is a Rust CLI that generates conventional commits, PR drafts, and diff reviews with the AI provider you already pay for.',
 } = Astro.props;
 ---
 
@@ -32,20 +32,23 @@ const {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
 
     <script is:inline>
       (function() {
         var STORAGE_KEY = 'aic-theme';
-        var DEFAULT_THEME = 'github-dark';
+        var DEFAULT_THEME = 'solarized-dark';
         var theme = DEFAULT_THEME;
         try { theme = localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME; } catch(e) {}
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
   </head>
-  <body class="min-h-screen antialiased">
+  <body>
     <Nav />
     <main>
       <slot />
@@ -55,7 +58,7 @@ const {
     <script is:inline>
       (function() {
         var STORAGE_KEY = 'aic-theme';
-        var DEFAULT_THEME = 'github-dark';
+        var DEFAULT_THEME = 'solarized-dark';
 
         function applyTheme(themeId) {
           document.documentElement.setAttribute('data-theme', themeId);
@@ -70,6 +73,20 @@ const {
             btn.classList.toggle('active', isActive);
             btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
           });
+
+          var trigger = document.getElementById('theme-dd-trigger');
+          if (trigger) {
+            var swatch = trigger.querySelector('.swatch');
+            var name = trigger.querySelector('.theme-dd-current');
+            var data = trigger.dataset;
+            if (data && data[themeId]) {
+              try {
+                var meta = JSON.parse(data[themeId]);
+                if (swatch) { swatch.style.background = meta.bg; swatch.style.borderColor = meta.border; }
+                if (name) name.textContent = meta.name;
+              } catch(e) {}
+            }
+          }
         }
 
         var stored = DEFAULT_THEME;

@@ -13,9 +13,7 @@ const sorted = docs.sort((a, b) => a.data.order - b.data.order);
 
 <aside class="docs-sidebar">
   <nav class="docs-sidebar__nav">
-    <a href="/docs" class:list={['docs-sidebar__link', { active: !currentSlug }]}>
-      Overview
-    </a>
+    <a href="/docs" class:list={['docs-sidebar__link', { active: !currentSlug }]}>Overview</a>
     {sorted.map((doc) => (
       <a
         href={`/docs/${doc.id}`}
@@ -25,74 +23,8 @@ const sorted = docs.sort((a, b) => a.data.order - b.data.order);
       </a>
     ))}
     <div class="docs-sidebar__divider"></div>
-    <a href="https://github.com/russmckendrick/aicommit" class="docs-sidebar__link docs-sidebar__link--external" target="_blank" rel="noopener noreferrer">
-      GitHub
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    <a href="https://github.com/russmckendrick/aicommit" class="docs-sidebar__link" target="_blank" rel="noopener noreferrer">
+      GitHub ↗
     </a>
   </nav>
 </aside>
-
-<style>
-  .docs-sidebar {
-    position: sticky;
-    top: calc(var(--nav-height) + var(--space-lg));
-    flex-shrink: 0;
-    width: 220px;
-  }
-
-  .docs-sidebar__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .docs-sidebar__link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: all 0.15s ease;
-  }
-
-  .docs-sidebar__link:hover {
-    color: var(--text);
-    background: var(--surface);
-    text-decoration: none;
-  }
-
-  .docs-sidebar__link.active {
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-  }
-
-  .docs-sidebar__divider {
-    height: 1px;
-    background: var(--border);
-    margin: var(--space-sm) 0;
-  }
-
-  @media (max-width: 900px) {
-    .docs-sidebar {
-      position: static;
-      width: 100%;
-    }
-
-    .docs-sidebar__nav {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: var(--space-xs);
-      padding-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: var(--space-lg);
-    }
-
-    .docs-sidebar__divider {
-      display: none;
-    }
-  }
-</style>

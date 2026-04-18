@@ -14,5 +14,8 @@ export default defineConfig({
   integrations: [sitemap(), react()],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['react-icons/si', 'react-icons/vsc', 'react-icons/lu'],
+    },
   },
 });

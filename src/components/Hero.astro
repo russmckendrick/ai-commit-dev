@@ -1,113 +1,37 @@
 ---
-import GithubIcon from './icons/GithubIcon';
-import HeroReveal, { HeroItem } from './motion/HeroReveal';
+import TerminalAnimated from './TerminalAnimated';
+import InstallCopy from './InstallCopy.astro';
+import { heroDemo } from '../data/terminals/hero-demo';
+import { heroInstall } from '../data/terminals/hero-install';
 ---
 
-<section class="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32">
-  <!-- Background effects -->
-  <div class="pointer-events-none absolute inset-0 bg-grid-fade"></div>
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-radial-fade"></div>
-
-  <div class="relative mx-auto max-w-5xl px-6 lg:px-8 text-center">
-    <HeroReveal client:load>
-      <HeroItem>
-        <div class="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 backdrop-blur px-3 py-1.5 text-xs font-medium text-text-secondary shadow-sm">
-          <span class="relative flex h-1.5 w-1.5">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60"></span>
-            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent"></span>
-          </span>
-          <span>Written in Rust · Installs as <code class="!bg-transparent !p-0 text-accent">aic</code></span>
+<section class="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-kicker">
+          <span class="dot"></span>
+          <span>rust · v0.0.6 · MIT</span>
         </div>
-      </HeroItem>
-
-      <HeroItem>
-        <h1 class="mt-8 text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text leading-[1.05]">
-          AI-powered commits,
-          <span class="block mt-1">
-            <span class="bg-gradient-to-br from-accent via-accent to-accent-text bg-clip-text text-transparent">straight from your terminal.</span>
-          </span>
+        <h1>
+          AI-generated commits, reviews &amp; PRs. <span class="mono">From the terminal.</span>
         </h1>
-      </HeroItem>
-
-      <HeroItem>
-        <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary leading-relaxed">
-          A fast, opinionated CLI that generates commit messages, reviews diffs,
-          drafts PRs, and visualizes your codebase — all from the terminal.
+        <p class="lead">
+          <span class="mono" style="color: var(--ink);">aic</span> is a single Rust binary that turns your staged diff into a conventional commit, drafts PR descriptions, reviews for bugs, and rewrites messy history — using the AI provider you already pay for.
         </p>
-      </HeroItem>
-
-      <HeroItem>
-        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a href="/docs/installation"
-             class="group inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-medium text-bg shadow-lg shadow-accent/20 hover:bg-accent-text hover:shadow-accent/30 transition-all">
-            Get started
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform group-hover:translate-x-0.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-          <a href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-3 text-sm font-medium text-text hover:bg-surface-raised hover:border-border-strong transition-all">
-            <GithubIcon size={16} />
-            Star on GitHub
-          </a>
+        <div class="hero-cta">
+          <InstallCopy command={heroInstall.content} id="hero" />
+          <a class="btn btn-ghost" href="#features">Features →</a>
         </div>
-      </HeroItem>
-
-      <HeroItem>
-        <div class="mt-12 mx-auto max-w-2xl text-left">
-          <div class="term">
-            <div class="term-head">
-              <div class="term-dots">
-                <span class="term-dot r"></span>
-                <span class="term-dot y"></span>
-                <span class="term-dot g"></span>
-              </div>
-              <span class="term-title">~/install.sh</span>
-              <button data-copy="brew install russmckendrick/tap/aicommit"
-                      class="ml-auto inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] font-medium text-text-tertiary hover:text-text hover:bg-surface-raised transition-colors"
-                      aria-label="Copy install command">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span class="copy-label">Copy</span>
-              </button>
-            </div>
-            <div class="term-body">
-              <div><span class="output opacity-60"># Install with Homebrew</span></div>
-              <div><span class="prompt">$</span><span class="command">brew install russmckendrick/tap/aicommit</span></div>
-            </div>
-          </div>
+        <div class="hero-flags">
+          <span>✓ macOS · Linux · Windows</span>
+          <span>✓ 7 providers</span>
+          <span>✓ Zero telemetry</span>
         </div>
-      </HeroItem>
-
-      <HeroItem>
-        <div class="mt-10 flex items-center justify-center gap-6 text-xs text-text-tertiary">
-          <span class="inline-flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent"><path d="M20 6L9 17l-5-5"/></svg>
-            Local-first
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent"><path d="M20 6L9 17l-5-5"/></svg>
-            7 providers
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent"><path d="M20 6L9 17l-5-5"/></svg>
-            Conventional commits
-          </span>
-        </div>
-      </HeroItem>
-    </HeroReveal>
+      </div>
+      <div>
+        <TerminalAnimated client:only="react" script={heroDemo} />
+      </div>
+    </div>
   </div>
 </section>
-
-<script is:inline>
-  document.querySelectorAll('[data-copy]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var text = btn.getAttribute('data-copy');
-      navigator.clipboard.writeText(text).then(function() {
-        var label = btn.querySelector('.copy-label');
-        if (label) {
-          var original = label.textContent;
-          label.textContent = 'Copied';
-          setTimeout(function() { label.textContent = original; }, 1500);
-        }
-      });
-    });
-  });
-</script>

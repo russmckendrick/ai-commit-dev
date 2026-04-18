@@ -1,21 +1,47 @@
 ---
-import ThemeSwitcher from './ThemeSwitcher.astro';
+import { themes } from '../data/themes';
 ---
 
-<section id="themes" class="relative py-24 sm:py-32">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="scroll-reveal mx-auto max-w-2xl text-center">
-      <p class="text-sm font-medium uppercase tracking-[0.14em] text-accent">Themes</p>
-      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-text">
-        Pick a theme. Watch the site transform.
-      </h2>
-      <p class="mt-4 text-base text-text-secondary leading-relaxed">
-        Eight built-in themes — every visualization, terminal block, and accent follows along.
-      </p>
-    </div>
+<div class="theme-showcase">
+  {themes.map((theme) => (
+    <button
+      class="theme-card"
+      data-theme-btn={theme.id}
+      aria-label={`Switch to ${theme.name}`}
+      aria-pressed="false"
+      title={theme.name}
+      style={`--card-bg: ${theme.background}; --card-surface: ${theme.surface}; --card-text: ${theme.primaryText}; --card-secondary: ${theme.secondaryText}; --card-accent: ${theme.accent}; --card-border: ${theme.border};`}
+    >
+      <div class="theme-card-preview">
+        <div class="theme-card-chrome">
+          <span style="background: #ff5f57;"></span>
+          <span style="background: #febc2e;"></span>
+          <span style="background: #28c840;"></span>
+        </div>
+        <div class="theme-card-body">
+          <span class="line l1"></span>
+          <span class="line l2"></span>
+          <span class="line l3"></span>
+          <span class="line l4"></span>
+        </div>
+      </div>
+      <div class="theme-card-meta">
+        <span class="theme-card-name">{theme.name}</span>
+        <span class="theme-card-variant">{theme.variant}</span>
+      </div>
+    </button>
+  ))}
+</div>
 
-    <div class="scroll-reveal mt-14">
-      <ThemeSwitcher variant="hero" />
-    </div>
-  </div>
-</section>
+<script is:inline>
+  (function() {
+    document.querySelectorAll('.theme-card[data-theme-btn]').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var id = card.getAttribute('data-theme-btn');
+        if (id && typeof window.__setTheme === 'function') {
+          window.__setTheme(id);
+        }
+      });
+    });
+  })();
+</script>

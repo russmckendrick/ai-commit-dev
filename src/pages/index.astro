@@ -1,41 +1,20 @@
 ---
 import Layout from '../components/Layout.astro';
 import Hero from '../components/Hero.astro';
-import ThemeShowcase from '../components/ThemeShowcase.astro';
-import TerminalDemo from '../components/TerminalDemo.astro';
-import Features from '../components/Features.astro';
-import VisualizationShowcase from '../components/VisualizationShowcase.astro';
-import ProviderGrid from '../components/ProviderGrid.astro';
-import InstallBlock from '../components/InstallBlock.astro';
+import FeaturesGrid from '../components/FeaturesGrid.astro';
+import Providers from '../components/Providers.astro';
+import DemoSection from '../components/DemoSection.astro';
+import MapGallery from '../components/MapGallery.astro';
+import ThemeShowcaseSection from '../components/ThemeShowcaseSection.astro';
+import InstallTabs from '../components/InstallTabs.astro';
 ---
 
 <Layout>
   <Hero />
-
-  <ThemeShowcase />
-
-  <section id="demo" class="relative py-24 sm:py-32">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="scroll-reveal mx-auto max-w-2xl text-center">
-        <p class="text-sm font-medium uppercase tracking-[0.14em] text-accent">Demo</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-text">
-          See it in action
-        </h2>
-        <p class="mt-4 text-base text-text-secondary leading-relaxed">
-          Stage your changes, run <code>aic</code>, and get a conventional commit in seconds.
-        </p>
-      </div>
-      <div class="scroll-reveal mt-14">
-        <TerminalDemo />
-      </div>
-    </div>
-  </section>
-
-  <Features />
-
-  <VisualizationShowcase />
-
-  <ProviderGrid />
-
-  <InstallBlock />
+  <FeaturesGrid />
+  <Providers />
+  <DemoSection />
+  <MapGallery />
+  <ThemeShowcaseSection />
+  <InstallTabs />
 </Layout>

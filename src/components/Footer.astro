@@ -1,60 +1,47 @@
 ---
 ---
 
-<footer class="relative mt-24 border-t border-border">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12">
-    <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-      <div class="flex flex-col gap-3 max-w-sm">
-        <div class="flex items-center gap-2">
-          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10 ring-1 ring-accent/30">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-accent">
-              <circle cx="12" cy="12" r="3"/>
-              <line x1="3" y1="12" x2="9" y2="12"/>
-              <line x1="15" y1="12" x2="21" y2="12"/>
-            </svg>
-          </span>
-          <span class="font-semibold tracking-tight text-text">aic</span>
-        </div>
-        <p class="text-sm text-text-secondary leading-relaxed">
-          A fast, opinionated CLI that lives in your terminal. Written in Rust, MIT licensed.
-        </p>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a href="/" class="brand" style="margin-bottom: 16px; display: inline-flex;">
+          <span class="brand-mark">aic<span class="brand-caret"></span></span>
+          <span class="brand-full">/ aicommit</span>
+        </a>
+        <p>A Rust CLI for AI-generated commits, reviews, and PRs. MIT licensed.</p>
       </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-text-tertiary">Product</p>
-          <ul class="mt-3 flex flex-col gap-2">
-            <li><a href="/#features" class="text-sm text-text-secondary hover:text-text transition-colors">Features</a></li>
-            <li><a href="/#visualizations" class="text-sm text-text-secondary hover:text-text transition-colors">Visualizations</a></li>
-            <li><a href="/#install" class="text-sm text-text-secondary hover:text-text transition-colors">Install</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-text-tertiary">Resources</p>
-          <ul class="mt-3 flex flex-col gap-2">
-            <li><a href="/docs" class="text-sm text-text-secondary hover:text-text transition-colors">Docs</a></li>
-            <li><a href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text transition-colors">GitHub</a></li>
-            <li><a href="https://github.com/russmckendrick/aicommit/releases" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text transition-colors">Releases</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-text-tertiary">Built with</p>
-          <ul class="mt-3 flex flex-col gap-2">
-            <li><a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text transition-colors">Astro</a></li>
-            <li><a href="https://pages.cloudflare.com" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text transition-colors">Cloudflare Pages</a></li>
-            <li><a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="text-sm text-text-secondary hover:text-text transition-colors">Tailwind CSS</a></li>
-          </ul>
-        </div>
+      <div class="foot-col">
+        <h4>Docs</h4>
+        <ul>
+          <li><a href="/docs/installation">Installation</a></li>
+          <li><a href="/docs/usage">Usage</a></li>
+          <li><a href="/docs/configuration">Configuration</a></li>
+          <li><a href="/docs/providers">Providers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Commands</h4>
+        <ul>
+          <li><a href="/docs/usage">aic</a></li>
+          <li><a href="/docs/usage">aic review</a></li>
+          <li><a href="/docs/usage">aic pr</a></li>
+          <li><a href="/docs/map">aic map</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://github.com/russmckendrick/aicommit/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
+          <li><a href="/docs/architecture">Architecture</a></li>
+          <li><a href="https://github.com/russmckendrick/aicommit/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li>
+        </ul>
       </div>
     </div>
-
-    <div class="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <p class="text-xs text-text-tertiary">
-        © 2026 Russ McKendrick · MIT License
-      </p>
-      <p class="text-xs text-text-tertiary">
-        Made with care for terminal lovers.
-      </p>
+    <div class="foot-legal">
+      <span>ai-commit.dev · v0.0.6</span>
+      <span>Built with Rust</span>
     </div>
   </div>
 </footer>
