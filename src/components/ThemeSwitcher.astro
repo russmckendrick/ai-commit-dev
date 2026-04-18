@@ -1,0 +1,112 @@
+---
+import { themes } from '../data/themes';
+
+interface Props {
+  variant?: 'hero' | 'nav';
+}
+
+const { variant = 'hero' } = Astro.props;
+const isHero = variant === 'hero';
+---
+
+{isHero ? (
+  <!-- Hero: mini preview cards showing what each theme looks like -->
+  <div class="mx-auto max-w-5xl">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      {themes.map((theme) => (
+        <button
+          class="theme-card group relative flex flex-col gap-2 p-2 rounded-xl border-2 border-transparent transition-all hover:-translate-y-0.5"
+          data-theme-btn={theme.id}
+          onclick={`window.__setTheme('${theme.id}')`}
+          aria-label={`Switch to ${theme.name} theme`}
+          aria-pressed="false"
+          title={theme.name}
+          style={`--card-bg: ${theme.background}; --card-surface: ${theme.surface}; --card-text: ${theme.primaryText}; --card-secondary: ${theme.secondaryText}; --card-accent: ${theme.accent}; --card-border: ${theme.border};`}
+        >
+          <div class="overflow-hidden rounded-lg aspect-[16/10]" style="background: var(--card-bg); border: 1px solid var(--card-border);">
+            <div class="flex items-center gap-1 px-2 py-1.5" style="background: var(--card-surface); border-bottom: 1px solid var(--card-border);">
+              <span class="w-1.5 h-1.5 rounded-full" style="background: #ff5f57;"></span>
+              <span class="w-1.5 h-1.5 rounded-full" style="background: #febc2e;"></span>
+              <span class="w-1.5 h-1.5 rounded-full" style="background: #28c840;"></span>
+            </div>
+            <div class="p-2.5 flex flex-col gap-1">
+              <div class="h-1 rounded" style="width: 55%; background: var(--card-text);"></div>
+              <div class="h-0.5 rounded" style="width: 85%; background: var(--card-secondary); opacity: 0.6;"></div>
+              <div class="h-0.5 rounded" style="width: 60%; background: var(--card-secondary); opacity: 0.6;"></div>
+              <div class="h-1 rounded mt-1" style="width: 35%; background: var(--card-accent);"></div>
+            </div>
+          </div>
+          <span class="text-xs font-medium text-text-tertiary text-center truncate transition-colors group-hover:text-text">{theme.name}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+) : (
+  <!-- Nav: compact dropdown trigger + menu -->
+  <div class="relative">
+    <button
+      class="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface/60 text-text-secondary hover:text-text hover:bg-surface-raised hover:border-border-strong transition-colors"
+      aria-label="Change theme"
+      aria-expanded="false"
+      id="theme-nav-trigger"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </button>
+    <div
+      class="hidden absolute right-0 top-full mt-2 w-56 rounded-xl border border-border bg-bg-deep shadow-2xl p-1.5 z-50"
+      id="theme-nav-dropdown"
+    >
+      {themes.map((theme) => (
+        <button
+          class="theme-nav-item flex w-full items-center gap-3 px-2.5 py-2 text-left rounded-lg hover:bg-surface transition-colors"
+          data-theme-btn={theme.id}
+          onclick={`window.__setTheme('${theme.id}'); document.getElementById('theme-nav-dropdown').classList.add('hidden'); document.getElementById('theme-nav-trigger').setAttribute('aria-expanded','false');`}
+          aria-label={`Switch to ${theme.name} theme`}
+          aria-pressed="false"
+        >
+          <span class="relative flex h-6 w-6 items-center justify-center rounded-md ring-1 ring-inset shrink-0" style={`background: ${theme.background}; --tw-ring-color: ${theme.border};`}>
+            <span class="h-2 w-2 rounded-full" style={`background: ${theme.accent};`}></span>
+          </span>
+          <span class="text-sm font-medium text-text-secondary theme-nav-item-name">{theme.name}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .theme-card.active { border-color: var(--card-accent); box-shadow: 0 0 0 1px var(--card-accent), 0 10px 30px -12px color-mix(in srgb, var(--card-accent) 40%, transparent); }
+  .theme-card:hover { border-color: var(--card-accent); }
+  .theme-card.active .theme-card__name { color: var(--text); }
+  .theme-nav-item.active { background: var(--accent-soft); }
+  .theme-nav-item.active .theme-nav-item-name { color: var(--text); }
+</style>
+
+<script is:inline>
+  (function() {
+    var trigger = document.getElementById('theme-nav-trigger');
+    var dropdown = document.getElementById('theme-nav-dropdown');
+    if (trigger && dropdown) {
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = !dropdown.classList.contains('hidden');
+        if (isOpen) {
+          dropdown.classList.add('hidden');
+          trigger.setAttribute('aria-expanded', 'false');
+        } else {
+          dropdown.classList.remove('hidden');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && e.target !== trigger) {
+          dropdown.classList.add('hidden');
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+</script>

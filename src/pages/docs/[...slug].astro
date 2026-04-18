@@ -1,0 +1,139 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../components/Layout.astro';
+import DocsSidebar from '../../components/DocsSidebar.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.title} — aic docs`} description={entry.data.description}>
+  <div class="docs-layout">
+    <DocsSidebar currentSlug={entry.id} />
+    <article class="docs-content">
+      <Content />
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .docs-layout {
+    display: flex;
+    gap: var(--space-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-2xl);
+  }
+
+  .docs-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .docs-content :global(h1) {
+    margin-bottom: var(--space-lg);
+  }
+
+  .docs-content :global(h2) {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+  }
+
+  .docs-content :global(h3) {
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  .docs-content :global(p) {
+    margin-bottom: var(--space-md);
+    max-width: 72ch;
+  }
+
+  .docs-content :global(pre) {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: calc(var(--space-md) + 36px) var(--space-lg) var(--space-md);
+    margin-bottom: var(--space-md);
+    overflow-x: auto;
+  }
+
+  /* Terminal title bar with dots */
+  .docs-content :global(pre::before) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background-image:
+      radial-gradient(circle at 20px 18px, #ff5f57 5px, transparent 5px),
+      radial-gradient(circle at 38px 18px, #febc2e 5px, transparent 5px),
+      radial-gradient(circle at 56px 18px, #28c840 5px, transparent 5px);
+    background-repeat: no-repeat;
+  }
+
+  .docs-content :global(ul),
+  .docs-content :global(ol) {
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+  }
+
+  .docs-content :global(li) {
+    margin-bottom: var(--space-xs);
+    color: var(--text-secondary);
+  }
+
+  .docs-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-md);
+    font-size: 0.9rem;
+  }
+
+  .docs-content :global(th) {
+    text-align: left;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .docs-content :global(td) {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .docs-content :global(a) {
+    color: var(--accent);
+  }
+
+  .docs-content :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: var(--space-md);
+    margin: var(--space-md) 0;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 900px) {
+    .docs-layout {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>

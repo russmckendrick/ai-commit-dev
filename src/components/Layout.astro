@@ -1,0 +1,83 @@
+---
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'aic — AI-powered Git commits',
+  description = 'A fast, opinionated CLI that generates Git commit messages, reviews diffs, drafts PRs, and visualizes your codebase — all from the terminal.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:site_name" content="ai-commit.dev" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <script is:inline>
+      (function() {
+        var STORAGE_KEY = 'aic-theme';
+        var DEFAULT_THEME = 'github-dark';
+        var theme = DEFAULT_THEME;
+        try { theme = localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME; } catch(e) {}
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen antialiased">
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script is:inline>
+      (function() {
+        var STORAGE_KEY = 'aic-theme';
+        var DEFAULT_THEME = 'github-dark';
+
+        function applyTheme(themeId) {
+          document.documentElement.setAttribute('data-theme', themeId);
+          try { localStorage.setItem(STORAGE_KEY, themeId); } catch(e) {}
+
+          document.querySelectorAll('[data-viz-theme]').forEach(function(el) {
+            el.style.display = el.getAttribute('data-viz-theme') === themeId ? '' : 'none';
+          });
+
+          document.querySelectorAll('[data-theme-btn]').forEach(function(btn) {
+            var isActive = btn.getAttribute('data-theme-btn') === themeId;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+        }
+
+        var stored = DEFAULT_THEME;
+        try { stored = localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME; } catch(e) {}
+        applyTheme(stored);
+
+        window.__setTheme = applyTheme;
+      })();
+    </script>
+  </body>
+</html>

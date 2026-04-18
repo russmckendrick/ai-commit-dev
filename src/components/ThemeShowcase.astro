@@ -1,0 +1,21 @@
+---
+import ThemeSwitcher from './ThemeSwitcher.astro';
+---
+
+<section id="themes" class="relative py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="scroll-reveal mx-auto max-w-2xl text-center">
+      <p class="text-sm font-medium uppercase tracking-[0.14em] text-accent">Themes</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-text">
+        Pick a theme. Watch the site transform.
+      </h2>
+      <p class="mt-4 text-base text-text-secondary leading-relaxed">
+        Eight built-in themes — every visualization, terminal block, and accent follows along.
+      </p>
+    </div>
+
+    <div class="scroll-reveal mt-14">
+      <ThemeSwitcher variant="hero" />
+    </div>
+  </div>
+</section>

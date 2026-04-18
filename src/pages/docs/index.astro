@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../components/Layout.astro';
+import DocsSidebar from '../../components/DocsSidebar.astro';
+
+const docs = await getCollection('docs');
+const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Documentation — aic" description="Documentation for the aic CLI tool">
+  <div class="docs-layout">
+    <DocsSidebar />
+    <article class="docs-content">
+      <h1>Documentation</h1>
+      <p class="docs-intro">
+        Everything you need to install, configure, and use <code>aic</code> — the AI-powered Git commit CLI.
+      </p>
+
+      <div class="docs-grid">
+        {sorted.map((doc) => (
+          <a href={`/docs/${doc.id}`} class="docs-card">
+            <h3>{doc.data.title}</h3>
+            <p>{doc.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .docs-layout {
+    display: flex;
+    gap: var(--space-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-2xl);
+  }
+
+  .docs-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .docs-intro {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-xl);
+  }
+
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .docs-card {
+    display: block;
+    padding: var(--space-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .docs-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .docs-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-sm);
+    color: var(--text);
+  }
+
+  .docs-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .docs-layout {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>

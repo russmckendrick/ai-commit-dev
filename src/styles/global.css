@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+/* ============================================
+   ai-commit.dev — Design system
+   Theme tokens as CSS variables, wired to
+   Tailwind v4 @theme for utility classes.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+/* --- Tailwind theme tokens driven by CSS vars --- */
+@theme {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+}
+
+/* --- Theme: GitHub Dark (default) --- */
+:root,
+[data-theme="github-dark"] {
+  --bg: #0d1117;
+  --bg-deep: #010409;
+  --surface: #161b22;
+  --surface-raised: #21262d;
+  --border: #30363d;
+  --border-strong: #484f58;
+  --text: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-tertiary: #6e7681;
+  --accent: #58a6ff;
+  --accent-text: #79c0ff;
+  --accent-soft: rgba(88, 166, 255, 0.12);
+  --heat-1: #161b22; --heat-2: #388bfd; --heat-3: #d47616; --heat-4: #f85149;
+  --activity-1: #161b22; --activity-2: #0e4429; --activity-3: #006d32; --activity-4: #26a641; --activity-5: #39d353;
+  color-scheme: dark;
+}
+
+/* --- Theme: GitHub Light --- */
+[data-theme="github-light"] {
+  --bg: #ffffff;
+  --bg-deep: #f6f8fa;
+  --surface: #f6f8fa;
+  --surface-raised: #eaeef2;
+  --border: #d1d9e0;
+  --border-strong: #afb8c1;
+  --text: #1f2328;
+  --text-secondary: #656d76;
+  --text-tertiary: #8b949e;
+  --accent: #0969da;
+  --accent-text: #0550ae;
+  --accent-soft: rgba(9, 105, 218, 0.1);
+  color-scheme: light;
+}
+
+/* --- Theme: Classic Light --- */
+[data-theme="classic-light"] {
+  --bg: #fafafa;
+  --bg-deep: #ececec;
+  --surface: #ffffff;
+  --surface-raised: #f0f0f0;
+  --border: #d0d0d0;
+  --border-strong: #a0a0a0;
+  --text: #1a1a1a;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --accent: #546e7a;
+  --accent-text: #37474f;
+  --accent-soft: rgba(84, 110, 122, 0.1);
+  color-scheme: light;
+}
+
+/* --- Theme: Classic Dark --- */
+[data-theme="classic-dark"] {
+  --bg: #1a1a1a;
+  --bg-deep: #0d0d0d;
+  --surface: #222222;
+  --surface-raised: #2c2c2c;
+  --border: #3a3a3a;
+  --border-strong: #555555;
+  --text: #e8e8e8;
+  --text-secondary: #aaaaaa;
+  --text-tertiary: #777777;
+  --accent: #90a4ae;
+  --accent-text: #b0bec5;
+  --accent-soft: rgba(144, 164, 174, 0.12);
+  color-scheme: dark;
+}
+
+/* --- Theme: Solarized Light --- */
+[data-theme="solarized-light"] {
+  --bg: #fdf6e3;
+  --bg-deep: #eee8d5;
+  --surface: #eee8d5;
+  --surface-raised: #e4debb;
+  --border: #d5c9a0;
+  --border-strong: #93a1a1;
+  --text: #073642;
+  --text-secondary: #586e75;
+  --text-tertiary: #93a1a1;
+  --accent: #268bd2;
+  --accent-text: #2aa198;
+  --accent-soft: rgba(38, 139, 210, 0.12);
+  color-scheme: light;
+}
+
+/* --- Theme: Solarized Dark --- */
+[data-theme="solarized-dark"] {
+  --bg: #002b36;
+  --bg-deep: #001e26;
+  --surface: #073642;
+  --surface-raised: #0a4b5a;
+  --border: #0f4a59;
+  --border-strong: #586e75;
+  --text: #eee8d5;
+  --text-secondary: #93a1a1;
+  --text-tertiary: #657b83;
+  --accent: #2aa198;
+  --accent-text: #268bd2;
+  --accent-soft: rgba(42, 161, 152, 0.14);
+  color-scheme: dark;
+}
+
+/* --- Theme: Monokai --- */
+[data-theme="monokai"] {
+  --bg: #272822;
+  --bg-deep: #1e1f1a;
+  --surface: #3e3d32;
+  --surface-raised: #49483e;
+  --border: #49483e;
+  --border-strong: #75715e;
+  --text: #f8f8f2;
+  --text-secondary: #cfcfc2;
+  --text-tertiary: #a6a69c;
+  --accent: #a6e22e;
+  --accent-text: #66d9ef;
+  --accent-soft: rgba(166, 226, 46, 0.14);
+  color-scheme: dark;
+}
+
+/* --- Theme: Dracula --- */
+[data-theme="dracula"] {
+  --bg: #282a36;
+  --bg-deep: #1c1d25;
+  --surface: #343746;
+  --surface-raised: #44475a;
+  --border: #44475a;
+  --border-strong: #6272a4;
+  --text: #f8f8f2;
+  --text-secondary: #c7c7c0;
+  --text-tertiary: #8b8ba0;
+  --accent: #bd93f9;
+  --accent-text: #8be9fd;
+  --accent-soft: rgba(189, 147, 249, 0.16);
+  color-scheme: dark;
+}
+
+/* --- Base --- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Smooth theme transitions */
+body,
+body *:not(script):not(style):not(img):not(svg):not(video) {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* --- Utility classes for inline usage in Astro/TSX --- */
+.bg-radial-fade {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, var(--accent-soft), transparent 60%);
+}
+
+.bg-grid-fade {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
+  opacity: 0.35;
+}
+
+/* --- Terminal code block (used in demo sections) --- */
+.term {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 0 color-mix(in srgb, white 5%, transparent) inset,
+    0 20px 60px -20px rgba(0, 0, 0, 0.4);
+}
+
+.term-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.term-dots { display: flex; gap: 6px; }
+.term-dot { width: 11px; height: 11px; border-radius: 50%; }
+.term-dot.r { background: #ff5f57; }
+.term-dot.y { background: #febc2e; }
+.term-dot.g { background: #28c840; }
+
+.term-title {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-left: 4px;
+}
+
+.term-body {
+  padding: 18px 20px;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text);
+  overflow-x: auto;
+}
+
+.term-body .prompt { color: var(--accent); font-weight: 600; margin-right: 4px; }
+.term-body .command { color: var(--text); }
+.term-body .output { color: var(--text-secondary); }
+.term-body .success { color: var(--accent); font-weight: 500; }
+.term-body .highlight { color: var(--accent); font-weight: 600; }
+
+/* --- Inline code --- */
+code:not(pre code) {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.88em;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+/* --- Reveal animations --- */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scroll-reveal {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+.scroll-reveal-stagger > * {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 45%;
+}
+
+@supports not (animation-timeline: view()) {
+  .scroll-reveal,
+  .scroll-reveal-stagger > * { animation: none; }
+}
+
+/* --- Section scroll snap --- */
+.section-snap {
+  scroll-snap-align: start;
+}
+
+/* --- Tab active states (kept global so Astro scoping doesn't bite) --- */
+.viz-tab-active,
+.install-tab-active {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.viz-panel[style*="display: none"],
+[data-viz-theme][style*="display: none"] {
+  display: none !important;
+}
+
+/* --- Theme switcher overrides --- */
+.theme-card.active {
+  border-color: var(--card-accent);
+  box-shadow:
+    0 0 0 1px var(--card-accent),
+    0 10px 30px -12px color-mix(in srgb, var(--card-accent) 40%, transparent);
+}
+
+.theme-nav-item.active {
+  background: var(--accent-soft);
+}
+
+.theme-nav-item.active .theme-nav-item-name {
+  color: var(--text);
+}
