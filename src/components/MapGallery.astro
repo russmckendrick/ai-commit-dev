@@ -40,3 +40,113 @@ const cards = [
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (function() {
+    var OPEN_CLASS = 'zoom-open';
+    var backdrop = null;
+    var clone = null;
+    var sourceImg = null;
+    var closing = false;
+
+    function currentRect(el) {
+      return el.getBoundingClientRect();
+    }
+
+    function computeTarget(aspect) {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var pad = Math.max(32, Math.min(80, Math.round(Math.min(vw, vh) * 0.06)));
+      var maxW = vw - pad * 2;
+      var maxH = vh - pad * 2;
+      var targetW = maxW;
+      var targetH = targetW / aspect;
+      if (targetH > maxH) {
+        targetH = maxH;
+        targetW = targetH * aspect;
+      }
+      return {
+        top: (vh - targetH) / 2,
+        left: (vw - targetW) / 2,
+        width: targetW,
+        height: targetH,
+      };
+    }
+
+    function open(img) {
+      if (clone || closing) return;
+      sourceImg = img;
+      var rect = currentRect(img);
+      var natW = img.naturalWidth || rect.width;
+      var natH = img.naturalHeight || rect.height;
+      var aspect = natW / natH;
+
+      backdrop = document.createElement('div');
+      backdrop.className = 'zoom-backdrop';
+      document.body.appendChild(backdrop);
+
+      clone = document.createElement('img');
+      clone.className = 'zoom-clone';
+      clone.src = img.currentSrc || img.src;
+      clone.alt = img.alt || '';
+      clone.style.top = rect.top + 'px';
+      clone.style.left = rect.left + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+      document.body.appendChild(clone);
+
+      img.style.visibility = 'hidden';
+      document.documentElement.classList.add(OPEN_CLASS);
+
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          if (!backdrop || !clone) return;
+          backdrop.classList.add('active');
+          var t = computeTarget(aspect);
+          clone.style.top = t.top + 'px';
+          clone.style.left = t.left + 'px';
+          clone.style.width = t.width + 'px';
+          clone.style.height = t.height + 'px';
+        });
+      });
+
+      backdrop.addEventListener('click', close);
+      clone.addEventListener('click', close);
+      window.addEventListener('keydown', onKey);
+      window.addEventListener('scroll', close, { passive: true, once: true });
+      window.addEventListener('resize', close, { once: true });
+    }
+
+    function close() {
+      if (!clone || closing) return;
+      closing = true;
+      var rect = sourceImg ? currentRect(sourceImg) : { top: 0, left: 0, width: 0, height: 0 };
+      backdrop.classList.remove('active');
+      clone.style.top = rect.top + 'px';
+      clone.style.left = rect.left + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+
+      var done = function() {
+        if (sourceImg) sourceImg.style.visibility = '';
+        if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
+        if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+        clone = null;
+        backdrop = null;
+        sourceImg = null;
+        closing = false;
+        document.documentElement.classList.remove(OPEN_CLASS);
+        window.removeEventListener('keydown', onKey);
+      };
+      setTimeout(done, 340);
+    }
+
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+    }
+
+    document.querySelectorAll('.map-card-vis img').forEach(function(img) {
+      img.addEventListener('click', function() { open(img); });
+    });
+  })();
+</script>

@@ -677,6 +677,36 @@ section { padding: 96px 0; }
   height: 100%;
   object-fit: cover;
   display: block;
+  cursor: zoom-in;
+}
+
+/* --- Medium-style zoom overlay --- */
+.zoom-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, var(--bg) 82%, black);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.zoom-backdrop.active { opacity: 1; }
+.zoom-clone {
+  position: fixed;
+  z-index: 1000;
+  object-fit: contain;
+  background: var(--bg);
+  border-radius: 10px;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line);
+  cursor: zoom-out;
+  will-change: transform;
+  transition:
+    top    0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+    left   0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+    width  0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-radius 0.32s ease;
 }
 .map-card-meta {
   display: flex;
