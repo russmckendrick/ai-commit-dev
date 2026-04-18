@@ -130,7 +130,8 @@
   color-scheme: light;
 }
 
-/* --- Theme: Solarized Dark --- */
+/* --- Theme: Solarized Dark (default) --- */
+:root,
 [data-theme="solarized-dark"] {
   --bg: #002b36;
   --bg-elev: #073642;
