@@ -1,0 +1,57 @@
+import type { AnimatedScript } from './types';
+
+export const flowMap: AnimatedScript = {
+  type: 'animated',
+  title: '~/projects/ai-commit-dev — aic map',
+  loopMs: 24000,
+  steps: [
+    { kind: 'typed', t: 100,   prompt: '$ ', text: 'aic map', speed: 70 },
+    { kind: 'line',  t: 700,   text: '' },
+    { kind: 'line',  t: 800,   text: 'Generate SVG visualizations of the codebase and commit history' },
+    { kind: 'line',  t: 1000,  text: '' },
+    { kind: 'line',  t: 1100,  cls: 'dim', text: 'Usage: aic map [OPTIONS] <COMMAND>' },
+    { kind: 'line',  t: 1300,  text: '' },
+    { kind: 'line',  t: 1400,  cls: 'bold', text: 'Commands:' },
+    { kind: 'line',  t: 1550,  text: '  tree      Generate a treemap of the codebase file hierarchy' },
+    { kind: 'line',  t: 1700,  text: '  history   Generate a commit timeline visualization' },
+    { kind: 'line',  t: 1850,  text: '  heat      Generate a file modification heatmap' },
+    { kind: 'line',  t: 2000,  text: '  activity  Generate a GitHub-style activity contribution grid' },
+    { kind: 'line',  t: 2150,  cls: 'dim', text: '  help      Print this message or the help of the given subcommand(s)' },
+    { kind: 'line',  t: 2400,  text: '' },
+    { kind: 'line',  t: 2500,  cls: 'bold', text: 'Options:' },
+    { kind: 'line',  t: 2650,  cls: 'dim', text: '  -p, --provider <PROVIDER>  Override the configured AI provider for this run' },
+    { kind: 'line',  t: 2800,  cls: 'dim', text: "  -h, --help                 Print help (see more with '--help')" },
+
+    { kind: 'line',  t: 4000,  text: '' },
+    { kind: 'typed', t: 4200,  prompt: '$ ', text: 'aic map tree', speed: 55 },
+    { kind: 'line',  t: 5100,  text: '' },
+    { kind: 'line',  t: 5200,  text: '◇ Building codebase treemap' },
+    { kind: 'line',  t: 5450,  cls: 'dim', text: '  • 111 tracked files' },
+    { kind: 'line',  t: 5700,  cls: 'dim', text: '  • 97 non-empty files, 32493 total lines' },
+    { kind: 'line',  t: 6300,  cls: 'green', text: '✔ Treemap saved to aic-treemap.svg' },
+
+    { kind: 'line',  t: 7100,  text: '' },
+    { kind: 'typed', t: 7300,  prompt: '$ ', text: 'aic map history', speed: 55 },
+    { kind: 'line',  t: 8300,  text: '' },
+    { kind: 'line',  t: 8400,  text: '◇ Building commit timeline (20 commits)' },
+    { kind: 'line',  t: 8650,  cls: 'dim', text: '  • 4 commits loaded' },
+    { kind: 'line',  t: 9200,  cls: 'green', text: '✔ Timeline saved to aic-timeline.svg' },
+
+    { kind: 'line',  t: 10000, text: '' },
+    { kind: 'typed', t: 10200, prompt: '$ ', text: 'aic map heat', speed: 55 },
+    { kind: 'line',  t: 11100, text: '' },
+    { kind: 'line',  t: 11200, text: '◇ Building change heatmap (50 commits)' },
+    { kind: 'line',  t: 11450, cls: 'dim', text: '  • 125 files changed' },
+    { kind: 'line',  t: 12000, cls: 'green', text: '✔ Heatmap saved to aic-heatmap.svg' },
+
+    { kind: 'line',  t: 12800, text: '' },
+    { kind: 'typed', t: 13000, prompt: '$ ', text: 'aic map activity', speed: 55 },
+    { kind: 'line',  t: 14000, text: '' },
+    { kind: 'line',  t: 14100, text: '◇ Building activity grid (52 weeks)' },
+    { kind: 'line',  t: 14350, cls: 'dim', text: '  • 1284 commits across 7 authors' },
+    { kind: 'line',  t: 14900, cls: 'green', text: '✔ Activity grid saved to aic-activity.svg' },
+
+    { kind: 'line',  t: 15700, text: '' },
+    { kind: 'typed', t: 15900, prompt: '$ ', text: '', speed: 30 },
+  ],
+};
