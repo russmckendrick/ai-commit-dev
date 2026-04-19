@@ -1,15 +1,6 @@
 ---
 import ProviderIcon from './ProviderIcon';
-
-const items = [
-  { name: 'openai' },
-  { name: 'anthropic' },
-  { name: 'azure-openai' },
-  { name: 'groq' },
-  { name: 'ollama' },
-  { name: 'claude-code' },
-  { name: 'codex' },
-];
+import { providerLinks } from '../data/providers';
 ---
 
 <section id="providers">
@@ -17,16 +8,23 @@ const items = [
     <div class="section-kicker">Providers</div>
     <h2 class="section-title">Bring your own model.</h2>
     <p class="section-sub">
-      Hosted APIs, local Ollama, or the <span class="mono" style="color: var(--ink);">claude</span> / <span class="mono" style="color: var(--ink);">codex</span> CLIs you already have signed in. Swap per-run with <span class="mono" style="color: var(--ink);">--provider</span>.
+      Hosted APIs, local Ollama, or the <span class="mono" style="color: var(--ink);">claude</span> / <span class="mono" style="color: var(--ink);">codex</span> / <span class="mono" style="color: var(--ink);">copilot</span> CLIs you already have signed in. Swap per-run with <span class="mono" style="color: var(--ink);">--provider</span>.
     </p>
     <div class="providers">
-      {items.map(({ name }) => (
-        <div class="prov" title={name}>
+      {providerLinks.map(({ name, href }) => (
+        <a
+          class="prov"
+          href={href}
+          title={name}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${name} website`}
+        >
           <div class="prov-logo">
             <ProviderIcon name={name} size={28} />
           </div>
           <div class="prov-name">{name}</div>
-        </div>
+        </a>
       ))}
     </div>
     <div style="margin-top: 24px; font-family: var(--mono); font-size: 12px; color: var(--ink-dim); display: flex; gap: 12px; flex-wrap: wrap;">

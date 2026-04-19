@@ -20,7 +20,7 @@ src/generator/          Prompt, chunking, and AI engine orchestration
 src/history_store/      Commit and review history persistence
 src/map/                SVG visualization renderers (treemap, timeline, heatmap, activity)
 src/ai/                 Provider trait and provider implementations
-src/ai/command/         Command-backed provider execution (claude-code, codex)
+src/ai/command/         Command-backed provider execution (claude-code, codex, copilot)
 ```
 
 The `aic` binary calls the shared library entrypoint.
@@ -39,7 +39,7 @@ flowchart LR
     Generator --> Token["src/token.rs"]
     Generator --> Ai["src/ai"]
     Ai --> HTTP["HTTP provider (OpenAI, Azure, Anthropic, Groq, Ollama)"]
-    Ai --> Command["src/ai/command (claude-code, codex)"]
+    Ai --> Command["src/ai/command (claude-code, codex, copilot)"]
 ```
 
 Provider implementations use an `AiEngine` trait that accepts normalized chat messages and returns a commit message string. This keeps the commit flow independent of transport details such as HTTP payloads or local subprocess execution.
@@ -48,7 +48,7 @@ Provider implementations use an `AiEngine` trait that accepts normalized chat me
 
 - **OpenAI-compatible HTTP engines** for `openai`, `azure-openai`, `groq`, and `ollama`
 - **Anthropic Messages API engine** for `anthropic`
-- **Command-backed engines** for `claude-code` and `codex`
+- **Command-backed engines** for `claude-code`, `codex`, and `copilot`
 
 ## Module Organization
 
@@ -56,14 +56,14 @@ Git behavior is isolated behind the `src/git/` module family so commit, push, ho
 
 The largest command and support modules are folderized to keep responsibilities local without changing public module paths:
 
-- `src/commands/commit/` separates staging, split-commit flow, push handling, and shared helpers
-- `src/commands/history/` separates formatting, rendering, and interactive browsing
+- `src/commands/commit/` separates staging, split-commit flow, push handling, and shared helpers behind `commands::commit::run`.
+- `src/commands/history/` separates formatting, rendering, and interactive browsing behind `commands::history::run`.
 - `src/config/` preserves `crate::config::*` while splitting model defaults, loading, parsing, validation, and writing
-- `src/generator/` separates commit, PR, and split-plan generation flows
-- `src/prompt/` separates commit, review, split, PR, and sanitization helpers
+- `src/generator/` preserves `crate::generator::*` while separating commit, PR, and split-plan generation flows.
+- `src/prompt/` preserves `crate::prompt::*` while separating commit, review, split, PR, and sanitization helpers.
 - `src/history_store/` keeps history persistence separate from the `aic history` command module
-- `src/ai/command/` keeps command-backed provider execution separate from command resolution
-- `src/commands/map/` separates the four visualization subcommands
+- `src/ai/command/` keeps command-backed provider execution separate from command resolution and test helpers.
+- `src/commands/map/` separates the four visualization subcommands (`tree`, `history`, `heat`, `activity`) behind `commands::map`.
 - `src/map/` provides SVG rendering: treemap layout, timeline layout, heatmap bars, activity grid, palette helpers, and SVG element utilities
 
 As a maintenance rule, modules that start combining multiple distinct concerns should usually graduate from a single `*.rs` file into a folder with a `mod.rs` compatibility layer and focused submodules.

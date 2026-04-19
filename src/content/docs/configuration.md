@@ -50,7 +50,7 @@ aic config describe --help
 
 `aic config describe` uses the same shared config-key descriptions as the CLI help metadata, so the wording stays aligned across help output, completions, and the config reference commands.
 
-## Supported Keys
+Supported v1 keys:
 
 ```text
 AIC_AI_PROVIDER
@@ -93,7 +93,7 @@ For Groq, set `AIC_AI_PROVIDER=groq` and `AIC_API_KEY`, then optionally override
 
 For Ollama, set `AIC_AI_PROVIDER=ollama` and optionally override the default `llama3.2` model with `AIC_MODEL`. `AIC_API_KEY` is not required for the default local Ollama server.
 
-For local CLI providers, set `AIC_AI_PROVIDER=claude-code` or `AIC_AI_PROVIDER=codex` and leave `AIC_MODEL=default`. These providers use the installed `claude` or `codex` binary from `PATH` and rely on that CLI's existing login state instead of `AIC_API_KEY`.
+For local CLI providers, set `AIC_AI_PROVIDER=claude-code`, `AIC_AI_PROVIDER=codex`, or `AIC_AI_PROVIDER=copilot` and leave `AIC_MODEL=default`. These providers use the installed `claude`, `codex`, or `copilot` binary from `PATH` and rely on that CLI's existing login state instead of `AIC_API_KEY`.
 
 Use `--provider <name>` to override the configured provider for a single run:
 
@@ -103,6 +103,7 @@ aic review --provider groq
 aic --provider ollama
 aic --provider claude-code
 aic review --provider codex
+aic review --provider copilot
 aic log --provider codex --yes
 aic models --provider ollama
 ```
@@ -110,6 +111,8 @@ aic models --provider ollama
 The alias `claudecode` is accepted and normalized to `claude-code`.
 
 `AIC_GITPUSH` controls whether `aic` offers a push step after committing. In the normal interactive flow, the single-remote prompt now defaults to `Yes`. With `aic --yes`, `aic` pushes automatically when exactly one remote is configured.
+
+When `AIC_GITPUSH=true`, `aic` now fetches the tracked upstream before starting a push-enabled commit session. If the current branch is behind or has diverged from its upstream, `aic` stops before creating a new commit, shows Git-aware recovery guidance, and asks you to sync the branch first. Git remains the source of truth for the check; AI is only used to explain the safest next step.
 
 `AIC_REMOTE_ICON_STYLE` controls Git host icons in push prompts. Use `auto` or `nerd-font` for Nerd Font icons with emoji and label fallback, `emoji` for emoji with label fallback, or `label` for plain provider labels only.
 
@@ -135,11 +138,9 @@ Prompt templates can use these placeholders:
 {{context_instruction}}
 ```
 
-## Ignore Files
-
 Use `.aicommitignore` in a repository to exclude files from AI diff input:
 
-```text
+```ignorelang
 path/to/large-asset.zip
 **/*.jpg
 ```
