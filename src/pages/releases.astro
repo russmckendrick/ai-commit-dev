@@ -1,37 +1,39 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Layout from '../../components/Layout.astro';
-import DocsSidebar from '../../components/DocsSidebar.astro';
-import Icon from '../../components/Icon.astro';
-import { getLatestRelease } from '../../lib/releases';
+import Layout from '../components/Layout.astro';
+import DocsSidebar from '../components/DocsSidebar.astro';
+import ReleaseArticle from '../components/ReleaseArticle.astro';
+import ReleasePager from '../components/ReleasePager.astro';
+import { getReleases } from '../lib/releases';
 
-export async function getStaticPaths() {
-  const docs = await getCollection('docs');
-  return docs.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
-}
-
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-
-const latest = entry.id === 'installation' ? await getLatestRelease() : null;
+const releases = await getReleases();
+const latestStableTag = releases.find((r) => !r.prerelease)?.tag;
+const latest = releases.find((r) => !r.prerelease) ?? releases[0] ?? null;
+const older = latest
+  ? releases[releases.findIndex((r) => r.tag === latest.tag) + 1] ?? null
+  : null;
 ---
 
-<Layout title={`${entry.data.title} — aic docs`} description={entry.data.description}>
+<Layout
+  title="Releases — aic"
+  description="Latest aicommit release, pulled straight from GitHub."
+>
   <div class="docs-layout">
-    <DocsSidebar currentSlug={entry.id} />
+    <DocsSidebar currentSlug="releases" />
     <article class="docs-content">
+      <h1>Releases</h1>
+      <p class="docs-intro">
+        Latest <code>aicommit</code> release, pulled straight from
+        <a href="https://github.com/russmckendrick/aicommit/releases" target="_blank" rel="noopener noreferrer">GitHub</a>
+        at build time. Paginate through earlier versions below, or jump to a specific tag from the sidebar.
+      </p>
+
+      {!latest && <p>No releases yet.</p>}
+
       {latest && (
-        <a class="docs-latest" href="/releases">
-          <Icon name="tag" size={12} />
-          <span>Latest release</span>
-          <strong>{latest.tag}</strong>
-          <Icon name="arrow-up-right" size={11} />
-        </a>
+        <ReleaseArticle release={latest} isLatestStable={latest.tag === latestStableTag} />
       )}
-      <Content />
+
+      <ReleasePager newer={null} older={older} />
     </article>
   </div>
 </Layout>

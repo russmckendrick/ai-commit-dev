@@ -1,8 +1,10 @@
 ---
+import Icon from './Icon.astro';
 import { installMacOS } from '../data/terminals/install-macos';
 import { installLinux } from '../data/terminals/install-linux';
 import { installWindows } from '../data/terminals/install-windows';
 import { installSource } from '../data/terminals/install-source';
+import { getLatestRelease } from '../lib/releases';
 
 const tabs = [
   { id: 'macos',   title: installMacOS.title!,   content: installMacOS.content },
@@ -10,13 +12,20 @@ const tabs = [
   { id: 'windows', title: installWindows.title!, content: installWindows.content },
   { id: 'source',  title: installSource.title!,  content: installSource.content },
 ];
+
+const latest = await getLatestRelease();
 ---
 
 <section id="install" class="section-elev">
   <div class="shell">
     <div class="section-kicker">Install</div>
     <h2 class="section-title">Three commands, any platform.</h2>
-    <p class="section-sub">Single static binary. No runtime, no daemon, no background process.</p>
+    <p class="section-sub">
+      Single static binary. No runtime, no daemon, no background process.
+      {latest && (
+        <> · Latest release <a class="install-latest" href="/releases"><Icon name="tag" size={11} /><span>{latest.tag}</span></a></>
+      )}
+    </p>
     <div class="tabs" role="tablist">
       {tabs.map((tab, i) => (
         <button

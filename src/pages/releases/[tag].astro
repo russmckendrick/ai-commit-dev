@@ -1,40 +1,71 @@
 ---
-import { getCollection, render } from 'astro:content';
 import Layout from '../../components/Layout.astro';
 import DocsSidebar from '../../components/DocsSidebar.astro';
 import Icon from '../../components/Icon.astro';
-import { getLatestRelease } from '../../lib/releases';
+import ReleaseArticle from '../../components/ReleaseArticle.astro';
+import ReleasePager from '../../components/ReleasePager.astro';
+import { getReleases, type Release } from '../../lib/releases';
 
 export async function getStaticPaths() {
-  const docs = await getCollection('docs');
-  return docs.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
+  const releases = await getReleases();
+  const latestStableTag = releases.find((r) => !r.prerelease)?.tag;
+  return releases.map((release, i) => ({
+    params: { tag: release.tag },
+    props: {
+      release,
+      isLatestStable: release.tag === latestStableTag,
+      older: releases[i + 1] ?? null,
+      newer: releases[i - 1] ?? null,
+    },
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+interface Props {
+  release: Release;
+  isLatestStable: boolean;
+  older: Release | null;
+  newer: Release | null;
+}
 
-const latest = entry.id === 'installation' ? await getLatestRelease() : null;
+const { release, isLatestStable, older, newer } = Astro.props;
 ---
 
-<Layout title={`${entry.data.title} — aic docs`} description={entry.data.description}>
+<Layout
+  title={`${release.tag} — aic releases`}
+  description={release.name}
+>
   <div class="docs-layout">
-    <DocsSidebar currentSlug={entry.id} />
+    <DocsSidebar currentSlug={`releases/${release.tag}`} />
     <article class="docs-content">
-      {latest && (
-        <a class="docs-latest" href="/releases">
-          <Icon name="tag" size={12} />
-          <span>Latest release</span>
-          <strong>{latest.tag}</strong>
-          <Icon name="arrow-up-right" size={11} />
-        </a>
-      )}
-      <Content />
+      <a class="release-breadcrumb" href="/releases">
+        <Icon name="arrow-up-right" size={11} class="release-breadcrumb__back" />
+        <span>All releases</span>
+      </a>
+      <ReleaseArticle release={release} isLatestStable={isLatestStable} />
+      <ReleasePager newer={newer} older={older} />
     </article>
   </div>
 </Layout>
+
+<style>
+  .release-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+  .release-breadcrumb:hover {
+    color: var(--accent);
+  }
+  .release-breadcrumb__back {
+    transform: rotate(225deg);
+  }
+</style>
 
 <script is:inline>
   (function() {

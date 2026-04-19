@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
+import { getReleases } from '../lib/releases';
 
 interface Props {
   currentSlug?: string;
@@ -10,6 +11,9 @@ const { currentSlug } = Astro.props;
 
 const docs = await getCollection('docs');
 const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+
+const releases = await getReleases();
+const releasesExpanded = currentSlug === 'releases' || currentSlug?.startsWith('releases/');
 
 const iconFor: Record<string, Parameters<typeof Icon>[0]['name']> = {
   installation: 'download',
@@ -39,6 +43,28 @@ const iconFor: Record<string, Parameters<typeof Icon>[0]['name']> = {
         <span>{doc.data.title}</span>
       </a>
     ))}
+    <a
+      href="/releases"
+      class:list={['docs-sidebar__link', { active: currentSlug === 'releases' }]}
+    >
+      <span class="docs-sidebar__mark" aria-hidden="true"></span>
+      <Icon name="tag" size={14} />
+      <span>Releases</span>
+    </a>
+    {releasesExpanded && releases.length > 0 && (
+      <ul class="docs-sidebar__sublist">
+        {releases.map((r) => (
+          <li>
+            <a
+              href={`/releases/${r.tag}/`}
+              class:list={['docs-sidebar__sublink', { active: currentSlug === `releases/${r.tag}` }]}
+            >
+              <span>{r.tag}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
     <div class="docs-sidebar__divider"></div>
     <a
       href="https://github.com/russmckendrick/aicommit"

@@ -1,0 +1,151 @@
+---
+import Icon from './Icon.astro';
+import type { Release } from '../lib/releases';
+
+interface Props {
+  release: Release;
+  isLatestStable: boolean;
+  showAnchor?: boolean;
+}
+
+const { release, isLatestStable, showAnchor = false } = Astro.props;
+
+const dateFmt = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+
+const dateLabel = (() => {
+  if (!release.publishedAt) return '';
+  const d = new Date(release.publishedAt);
+  return Number.isNaN(d.getTime()) ? '' : dateFmt.format(d);
+})();
+---
+
+<section class="release" id={showAnchor ? release.tag : undefined}>
+  <header class="release-header">
+    <h2 class="release-title">
+      {showAnchor ? (
+        <a href={`#${release.tag}`} class="release-anchor">{release.name}</a>
+      ) : (
+        release.name
+      )}
+    </h2>
+    <div class="release-meta">
+      <span class="release-tag">
+        <Icon name="tag" size={12} />
+        <span>{release.tag}</span>
+      </span>
+      {dateLabel && <time datetime={release.publishedAt}>{dateLabel}</time>}
+      {isLatestStable && <span class="release-badge release-badge--latest">Latest</span>}
+      {release.prerelease && <span class="release-badge release-badge--pre">Prerelease</span>}
+      <a
+        class="release-link"
+        href={release.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>View on GitHub</span>
+        <Icon name="arrow-up-right" size={11} />
+      </a>
+    </div>
+  </header>
+  <div class="release-body" set:html={release.bodyHtml}></div>
+</section>
+
+<style>
+  .release {
+    margin: 0 0 48px;
+  }
+  .release-header {
+    margin: 0 0 24px;
+  }
+  .release-title {
+    font-family: var(--sans);
+    font-size: 28px;
+    color: var(--ink);
+    font-weight: 600;
+    margin: 0 0 12px;
+    letter-spacing: -0.015em;
+    border-top: 0;
+    padding-top: 0;
+  }
+  .release-anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+  .release-anchor:hover {
+    color: var(--accent);
+  }
+  .release-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+  }
+  .release-meta time {
+    color: var(--ink-soft);
+  }
+  .release-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--bg-elev);
+  }
+  .release-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .release-badge--latest {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+  }
+  .release-badge--pre {
+    background: color-mix(in oklch, var(--ink-dim) 12%, transparent);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .release-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--ink-dim);
+    text-decoration: none;
+  }
+  .release-link:hover {
+    color: var(--accent);
+  }
+  .release-body :global(h1) {
+    font-family: var(--sans);
+    font-size: 20px;
+    color: var(--ink);
+    font-weight: 600;
+    margin: 24px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .release-body :global(h2) {
+    font-size: 17px;
+    margin: 28px 0 12px;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .release-body :global(h3) {
+    font-size: 15px;
+    margin: 20px 0 10px;
+  }
+</style>

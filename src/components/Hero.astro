@@ -1,17 +1,30 @@
 ---
 import TerminalAnimated from './TerminalAnimated';
 import InstallCopy from './InstallCopy.astro';
+import Icon from './Icon.astro';
 import { flowCommit } from '../data/terminals/flow-commit';
 import { heroInstall } from '../data/terminals/hero-install';
+import { getLatestRelease } from '../lib/releases';
+
+const latest = await getLatestRelease();
 ---
 
 <section class="hero">
   <div class="shell">
     <div class="hero-grid">
       <div>
-        <div class="hero-kicker">
-          <span class="dot"></span>
-          <span>rust · MIT</span>
+        <div class="hero-kickers">
+          <div class="hero-kicker">
+            <span class="dot"></span>
+            <span>rust · MIT</span>
+          </div>
+          {latest && (
+            <a class="hero-release" href="/releases" aria-label={`Latest release ${latest.tag}`}>
+              <Icon name="tag" size={11} />
+              <span>Latest {latest.tag}</span>
+              <Icon name="arrow-up-right" size={10} />
+            </a>
+          )}
         </div>
         <h1>
           AI-generated commits, reviews &amp; PRs. <span class="mono">From the terminal.</span>

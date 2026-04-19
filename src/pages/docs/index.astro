@@ -2,9 +2,51 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../components/Layout.astro';
 import DocsSidebar from '../../components/DocsSidebar.astro';
+import Icon from '../../components/Icon.astro';
+
+type IconName = Parameters<typeof Icon>[0]['name'];
+
+const iconFor: Record<string, IconName> = {
+  installation: 'download',
+  usage: 'terminal',
+  configuration: 'sliders',
+  providers: 'cpu',
+  map: 'bar-chart',
+  hooks: 'link',
+  architecture: 'layers',
+};
 
 const docs = await getCollection('docs');
 const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+
+interface Card {
+  href: string;
+  slug: string;
+  icon: IconName;
+  title: string;
+  description: string;
+}
+
+const cards: Card[] = [
+  ...sorted.map((doc) => ({
+    href: `/docs/${doc.id}`,
+    slug: doc.id,
+    icon: iconFor[doc.id] ?? ('book-open' as IconName),
+    title: doc.data.title,
+    description: doc.data.description,
+  })),
+  {
+    href: '/releases',
+    slug: 'releases',
+    icon: 'tag',
+    title: 'Releases',
+    description: 'Every aicommit release with notes, pulled from GitHub at build time',
+  },
+];
+
+function pad(n: number): string {
+  return n.toString().padStart(2, '0');
+}
 ---
 
 <Layout title="Documentation — aic" description="Documentation for the aic CLI tool">
@@ -17,10 +59,21 @@ const sorted = docs.sort((a, b) => a.data.order - b.data.order);
       </p>
 
       <div class="docs-grid">
-        {sorted.map((doc) => (
-          <a href={`/docs/${doc.id}`} class="docs-card">
-            <h3>{doc.data.title}</h3>
-            <p>{doc.data.description}</p>
+        {cards.map((card, i) => (
+          <a href={card.href} class="docs-card">
+            <div class="docs-card__head">
+              <div class="docs-card__icon">
+                <Icon name={card.icon} size={16} />
+              </div>
+              <span class="docs-card__kicker">
+                <span class="docs-card__num">{pad(i + 1)}</span>
+                <span class="docs-card__sep">/</span>
+                <span class="docs-card__slug">{card.slug}</span>
+              </span>
+            </div>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <span class="docs-card__arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </div>

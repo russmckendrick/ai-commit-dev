@@ -1,0 +1,126 @@
+---
+import Icon from './Icon.astro';
+import type { Release } from '../lib/releases';
+
+interface Props {
+  newer: Release | null;
+  older: Release | null;
+}
+
+const { newer, older } = Astro.props;
+
+function hrefFor(r: Release): string {
+  return `/releases/${r.tag}/`;
+}
+---
+
+{(newer || older) && (
+  <nav class="release-pager" aria-label="Release pagination">
+    {newer ? (
+      <a class="release-pager__link release-pager__link--newer" href={hrefFor(newer)}>
+        <Icon name="arrow-up-right" size={12} class="release-pager__arrow release-pager__arrow--newer" />
+        <span class="release-pager__meta">
+          <span class="release-pager__label">Newer release</span>
+          <span class="release-pager__tag">{newer.tag}</span>
+        </span>
+      </a>
+    ) : (
+      <span class="release-pager__placeholder" aria-hidden="true"></span>
+    )}
+    {older ? (
+      <a class="release-pager__link release-pager__link--older" href={hrefFor(older)}>
+        <span class="release-pager__meta">
+          <span class="release-pager__label">Older release</span>
+          <span class="release-pager__tag">{older.tag}</span>
+        </span>
+        <Icon name="arrow-up-right" size={12} class="release-pager__arrow release-pager__arrow--older" />
+      </a>
+    ) : (
+      <span class="release-pager__placeholder" aria-hidden="true"></span>
+    )}
+  </nav>
+)}
+
+<style>
+  .release-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 48px 0 0;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .release-pager__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+    min-height: 64px;
+  }
+  .release-pager__link--older {
+    justify-content: flex-end;
+    text-align: right;
+  }
+  .release-pager__link:hover {
+    border-color: color-mix(in oklch, var(--accent) 30%, transparent);
+    background: var(--bg-elev);
+    color: var(--ink);
+  }
+  .release-pager__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .release-pager__label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-dim);
+  }
+  .release-pager__tag {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .release-pager__link:hover .release-pager__tag {
+    color: var(--accent);
+  }
+  .release-pager__arrow {
+    color: var(--ink-dim);
+    flex-shrink: 0;
+    transition: color 120ms ease, transform 120ms ease;
+  }
+  .release-pager__arrow--newer {
+    transform: rotate(-135deg);
+  }
+  .release-pager__arrow--older {
+    transform: rotate(45deg);
+  }
+  .release-pager__link:hover .release-pager__arrow {
+    color: var(--accent);
+  }
+  .release-pager__link--newer:hover .release-pager__arrow--newer {
+    transform: rotate(-135deg) translate(2px, 0);
+  }
+  .release-pager__link--older:hover .release-pager__arrow--older {
+    transform: rotate(45deg) translate(2px, 0);
+  }
+  .release-pager__placeholder {
+    display: block;
+  }
+  @media (max-width: 640px) {
+    .release-pager {
+      grid-template-columns: 1fr;
+    }
+    .release-pager__placeholder {
+      display: none;
+    }
+  }
+</style>
