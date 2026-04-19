@@ -27,15 +27,19 @@ The `aic` binary calls the shared library entrypoint.
 
 ## Data Flow
 
-```
-aic binary → src/cli.rs → src/commands
-  → src/config (load settings)
-  → src/git (read staged diff)
-  → src/generator (orchestrate AI call)
-    → src/prompt (build prompt)
-    → src/token.rs (count tokens, chunk if needed)
-    → src/ai (call provider)
-  → Result back to user
+```mermaid
+flowchart LR
+    Bin["aic binary"] --> Cli["src/cli.rs"]
+    Cli --> Commands["src/commands"]
+    Commands --> Config["src/config"]
+    Commands --> Map["src/map"]
+    Commands --> Git["src/git"]
+    Commands --> Generator["src/generator"]
+    Generator --> Prompt["src/prompt"]
+    Generator --> Token["src/token.rs"]
+    Generator --> Ai["src/ai"]
+    Ai --> HTTP["HTTP provider (OpenAI, Azure, Anthropic, Groq, Ollama)"]
+    Ai --> Command["src/ai/command (claude-code, codex)"]
 ```
 
 Provider implementations use an `AiEngine` trait that accepts normalized chat messages and returns a commit message string. This keeps the commit flow independent of transport details such as HTTP payloads or local subprocess execution.
@@ -62,6 +66,8 @@ The largest command and support modules are folderized to keep responsibilities 
 - `src/commands/map/` separates the four visualization subcommands
 - `src/map/` provides SVG rendering: treemap layout, timeline layout, heatmap bars, activity grid, palette helpers, and SVG element utilities
 
+As a maintenance rule, modules that start combining multiple distinct concerns should usually graduate from a single `*.rs` file into a folder with a `mod.rs` compatibility layer and focused submodules.
+
 ## Prompt Templates
 
 Prompt templates live in `prompts/`:
@@ -74,12 +80,22 @@ Use `AIC_PROMPT_FILE` to point at a custom commit prompt template.
 
 ## Commit Generation Flow
 
-1. User runs `aic`
-2. CLI reads staged files and diff from Git
-3. Diff and config are sent to the Generator
-4. Generator splits large diffs into chunks if needed
-5. Generator calls the AI provider for chunk summaries (if chunked)
-6. Generator calls the AI provider for the final commit message
-7. Formatted message is presented to the user
-8. User confirms, regenerates, or aborts
-9. On acceptance, CLI runs `git commit`
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI as aic
+    participant Git
+    participant Generator
+    participant Provider
+    User->>CLI: Run aic
+    CLI->>Git: Read staged files and diff
+    CLI->>Generator: Send diff and config
+    Generator->>Generator: Split large diffs into chunks
+    Generator->>Provider: Generate chunk summaries if needed
+    Generator->>Provider: Generate final commit message
+    Provider-->>Generator: Commit message
+    Generator-->>CLI: Formatted message
+    CLI-->>User: Confirm, regenerate, or abort
+    User->>CLI: Accept message
+    CLI->>Git: git commit
+```

@@ -21,7 +21,7 @@ const flows: Flow[] = [
   { id: 'review',  cmd: 'aic review',  tag: 'review',  desc: 'AI diff review grouped by severity',          script: flowReview },
   { id: 'pr',      cmd: 'aic pr',      tag: 'pr',      desc: 'Draft PR title + Markdown description',       script: flowPr },
   { id: 'log',     cmd: 'aic log',     tag: 'log',     desc: 'Rewrite the last N commit messages',          script: flowLog },
-  { id: 'map',     cmd: 'aic map',     tag: 'map',     desc: 'SVG visualizations — treemap, heat, activity', script: flowMap },
+  { id: 'map',     cmd: 'aic map',     tag: 'map',     desc: 'SVG visualizations — treemap, timeline, heat, activity', script: flowMap },
   { id: 'history', cmd: 'aic history', tag: 'history', desc: 'Browse, filter, reuse past generations',      script: flowHistory },
 ];
 

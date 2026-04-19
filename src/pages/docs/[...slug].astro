@@ -23,3 +23,72 @@ const { Content } = await render(entry);
     </article>
   </div>
 </Layout>
+
+<script is:inline>
+  (function() {
+    var article = document.querySelector('article.docs-content');
+    if (!article) return;
+
+    var LANG_LABEL = {
+      sh: 'bash', bash: 'bash', shell: 'bash', zsh: 'bash',
+      powershell: 'powershell', ps: 'powershell',
+      toml: 'toml', yaml: 'yaml', json: 'json',
+      text: 'output', txt: 'output', '': 'output',
+      rust: 'rust', rs: 'rust',
+    };
+
+    article.querySelectorAll('pre').forEach(function(pre) {
+      if (pre.classList.contains('mermaid')) return;
+      if (pre.parentElement && pre.parentElement.classList.contains('terminal')) return;
+
+      var codeEl = pre.querySelector('code');
+      var lang = (pre.getAttribute('data-language') || '').toLowerCase();
+      if (!lang && codeEl) {
+        var langClass = Array.from(codeEl.classList).find(function(c) {
+          return c.indexOf('language-') === 0;
+        });
+        if (langClass) lang = langClass.slice('language-'.length).toLowerCase();
+      }
+      var title = LANG_LABEL[lang] || lang || 'output';
+
+      var frame = document.createElement('div');
+      frame.className = 'terminal';
+
+      var chrome = document.createElement('div');
+      chrome.className = 'term-chrome';
+      chrome.innerHTML =
+        '<span class="term-dot r"></span>' +
+        '<span class="term-dot y"></span>' +
+        '<span class="term-dot g"></span>' +
+        '<span class="term-title"></span>';
+      chrome.querySelector('.term-title').textContent = title;
+
+      var copy = document.createElement('button');
+      copy.type = 'button';
+      copy.className = 'term-copy';
+      copy.textContent = 'copy';
+      copy.setAttribute('aria-label', 'Copy code');
+      copy.addEventListener('click', async function() {
+        var code = pre.querySelector('code') || pre;
+        var text = (code.innerText || code.textContent || '').replace(/\n$/, '');
+        try {
+          await navigator.clipboard.writeText(text);
+          copy.textContent = 'copied';
+          copy.classList.add('copied');
+        } catch (e) {
+          copy.textContent = 'error';
+        }
+        setTimeout(function() {
+          copy.textContent = 'copy';
+          copy.classList.remove('copied');
+        }, 1400);
+      });
+      chrome.appendChild(copy);
+
+      var parent = pre.parentNode;
+      parent.insertBefore(frame, pre);
+      frame.appendChild(chrome);
+      frame.appendChild(pre);
+    });
+  })();
+</script>

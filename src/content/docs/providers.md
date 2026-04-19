@@ -24,6 +24,28 @@ codex
 
 `claude-code` and `codex` are experimental local-binary providers. They use the installed `claude` and `codex` CLIs from your `PATH`, so authentication is managed by those tools rather than `aic`.
 
+```mermaid
+flowchart TD
+    Config["AIC_AI_PROVIDER"] --> Provider{"Provider"}
+    Provider -->|openai| OpenAI["OpenAI API"]
+    Provider -->|azure-openai| Azure["Azure OpenAI v1 API"]
+    Provider -->|anthropic| Anthropic["Anthropic Messages API"]
+    Provider -->|groq| Groq["Groq OpenAI-compatible API"]
+    Provider -->|ollama| Ollama["Local Ollama OpenAI-compatible API"]
+    Provider -->|claude-code| Claude["Local claude CLI"]
+    Provider -->|codex| Codex["Local codex exec CLI"]
+    OpenAI --> Chat["Chat completions request"]
+    Azure --> Chat
+    Groq --> Chat
+    Ollama --> Chat
+    Anthropic --> Messages["Messages request"]
+    Claude --> Prompt["Flattened prompt over stdin"]
+    Codex --> Prompt
+    Chat --> Result["Generated commit message"]
+    Messages --> Result
+    Prompt --> Result
+```
+
 ## Configure OpenAI
 
 ```sh

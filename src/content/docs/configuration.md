@@ -12,8 +12,12 @@ order: 3
 2. Global config at `~/.aicommit`
 3. Process environment variables
 
-```
-Defaults → ~/.aicommit → Process environment → CLI flags → Resolved runtime config
+```mermaid
+flowchart LR
+    Defaults["Built-in defaults"] --> Global["~/.aicommit"]
+    Global --> Env["Process environment"]
+    Env --> Flags["CLI flags (--provider, --fgm, etc.)"]
+    Flags --> Runtime["Resolved runtime config"]
 ```
 
 Set global values:

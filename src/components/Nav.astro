@@ -1,5 +1,14 @@
 ---
 import ThemeSwitcher from './ThemeSwitcher.astro';
+import Icon from './Icon.astro';
+
+const links = [
+  { href: '/#features', label: 'Commands', icon: 'terminal' as const },
+  { href: '/#providers', label: 'Providers', icon: 'cpu' as const },
+  { href: '/#visualizations', label: 'Maps', icon: 'bar-chart' as const },
+  { href: '/#install', label: 'Install', icon: 'download' as const },
+  { href: '/docs', label: 'Docs', icon: 'book-open' as const },
+];
 ---
 
 <div class="nav">
@@ -10,17 +19,91 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
         <span class="brand-full">/ aicommit</span>
       </a>
       <nav class="nav-links">
-        <a href="/#features">Commands</a>
-        <a href="/#providers">Providers</a>
-        <a href="/#visualizations">Maps</a>
-        <a href="/#install">Install</a>
-        <a href="/docs">Docs</a>
+        {links.map(({ href, label, icon }) => (
+          <a href={href}>
+            <Icon name={icon} size={13} />
+            <span>{label}</span>
+          </a>
+        ))}
       </nav>
     </div>
     <div class="nav-right">
       <ThemeSwitcher />
-      <a class="btn" href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a class="btn btn-primary" href="/#install">Install</a>
+      <a class="btn nav-desktop-only" href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer">
+        <Icon name="github" size={13} />
+        <span>GitHub</span>
+      </a>
+      <a class="btn btn-primary nav-desktop-only" href="/docs/installation">
+        <Icon name="download" size={13} />
+        <span>Install</span>
+      </a>
+      <button
+        type="button"
+        class="nav-burger"
+        data-nav-burger
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span class="nav-burger__icon nav-burger__open"><Icon name="menu" size={18} /></span>
+        <span class="nav-burger__icon nav-burger__close"><Icon name="x" size={18} /></span>
+      </button>
     </div>
   </div>
+  <div class="nav-drawer" data-nav-drawer hidden>
+    <nav class="nav-drawer__links shell">
+      {links.map(({ href, label, icon }) => (
+        <a href={href}>
+          <Icon name={icon} size={16} />
+          <span>{label}</span>
+        </a>
+      ))}
+      <a href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer">
+        <Icon name="github" size={16} />
+        <span>GitHub</span>
+        <Icon name="arrow-up-right" size={12} class="nav-drawer__ext" />
+      </a>
+      <a href="/docs/installation" class="nav-drawer__cta">
+        <Icon name="download" size={16} />
+        <span>Install aic</span>
+      </a>
+    </nav>
+  </div>
 </div>
+
+<script is:inline>
+  (function() {
+    var btn = document.querySelector('[data-nav-burger]');
+    var drawer = document.querySelector('[data-nav-drawer]');
+    if (!btn || !drawer) return;
+
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        drawer.removeAttribute('hidden');
+        document.documentElement.classList.add('nav-drawer-open');
+      } else {
+        drawer.setAttribute('hidden', '');
+        document.documentElement.classList.remove('nav-drawer-open');
+      }
+    }
+
+    btn.addEventListener('click', function() {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+
+    drawer.addEventListener('click', function(e) {
+      var target = e.target;
+      if (target && target.closest && target.closest('a')) setOpen(false);
+    });
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 920 && btn.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+      }
+    });
+  })();
+</script>

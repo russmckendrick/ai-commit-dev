@@ -28,14 +28,16 @@ aic hook unset --help
 
 When the hook runs, it generates a commit message for staged files and writes it into Git's commit message file.
 
-The flow is:
-
-1. `git commit` opens the message file
-2. The `prepare-commit-msg` hook fires
-3. `aic hookrun` reads the staged diff
-4. A message is generated via the configured AI provider
-5. If `AIC_HOOK_AUTO_UNCOMMENT` is `true`, the message is written directly
-6. Otherwise, the message is written as a comment for you to review in your editor
+```mermaid
+flowchart TD
+    A["git commit opens message file"] --> B["prepare-commit-msg hook"]
+    B --> C["aic hookrun"]
+    C --> D["Read staged diff"]
+    D --> E["Generate message"]
+    E --> F{"AIC_HOOK_AUTO_UNCOMMENT"}
+    F -->|true| G["Write active message"]
+    F -->|false| H["Write commented suggestion"]
+```
 
 By default the hook writes the generated message as a comment, so you can review and uncomment it in your editor. To write it uncommented:
 

@@ -110,3 +110,7 @@ CLI flags (`--theme`, `-n`) override the config file when specified.
 ## Output
 
 All subcommands produce standalone SVG files that open in any modern browser. The SVGs use the system font stack and look good at any zoom level.
+
+## Future
+
+- **AI-annotated clusters**: the `tree` subcommand will optionally pass file groupings to the configured AI provider to generate short descriptive labels for each cluster.
