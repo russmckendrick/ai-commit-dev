@@ -29,13 +29,23 @@ const links = [
     </div>
     <div class="nav-right">
       <ThemeSwitcher />
-      <a class="btn nav-desktop-only" href="https://github.com/russmckendrick/aicommit" target="_blank" rel="noopener noreferrer">
-        <Icon name="github" size={13} />
-        <span>GitHub</span>
+      <a
+        class="btn btn-icon nav-desktop-only"
+        href="https://github.com/russmckendrick/aicommit"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub repository"
+        title="GitHub"
+      >
+        <Icon name="github" size={16} />
       </a>
-      <a class="btn btn-primary nav-desktop-only" href="/docs/installation">
-        <Icon name="download" size={13} />
-        <span>Install</span>
+      <a
+        class="btn btn-primary btn-icon nav-desktop-only"
+        href="/docs/installation"
+        aria-label="Install aic"
+        title="Install aic"
+      >
+        <Icon name="download" size={16} />
       </a>
       <button
         type="button"

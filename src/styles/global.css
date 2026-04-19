@@ -418,6 +418,13 @@ html.nav-drawer-open { overflow: hidden; }
 .btn-primary:hover { background: var(--ink-soft); color: var(--bg); }
 .btn-ghost { border-color: transparent; color: var(--ink-dim); }
 .btn-ghost:hover { color: var(--ink); background: var(--bg-elev); border-color: var(--line-soft); }
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  gap: 0;
+  justify-content: center;
+}
 
 .icon-btn {
   width: 32px;
@@ -914,8 +921,11 @@ html.nav-drawer-open { overflow: hidden; }
 .theme-dd-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 10px 6px 8px;
+  justify-content: center;
+  gap: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border-radius: 7px;
   border: 1px solid var(--line);
   background: transparent;
@@ -947,6 +957,9 @@ html.nav-drawer-open { overflow: hidden; }
 }
 .theme-dd-trigger .theme-dd-variant { margin-left: 2px; }
 .theme-dd-chevron { color: var(--ink-dim); flex-shrink: 0; }
+.theme-dd-trigger .theme-dd-current,
+.theme-dd-trigger .theme-dd-variant,
+.theme-dd-trigger .theme-dd-chevron { display: none; }
 
 .theme-dd-menu {
   position: absolute;
